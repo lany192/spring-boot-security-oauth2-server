@@ -52,24 +52,18 @@ import java.util.List;
 @Configuration
 public class AuthorizationServerConfiguration extends AuthorizationServerConfigurerAdapter implements InitializingBean {
     @Autowired
-    @Qualifier("authenticationManagerBean")
-    private AuthenticationManager authenticationManager;
-
-    @Autowired
     ClientDetailsServiceImpl clientDetailsService;
-
     @Autowired
     UserDetailsService userDetailsService;
-
     @Autowired
     CaptchaService captchaService;
-
     @Autowired
     ThirdPartyAccountRepository thirdPartyAccountRepository;
-
     @Autowired
     RoleRepository roleRepository;
-
+    @Autowired
+    @Qualifier("authenticationManagerBean")
+    private AuthenticationManager authenticationManager;
     @Value("${jwt.jks.keypass:keypass}")
     private String keypass;
 

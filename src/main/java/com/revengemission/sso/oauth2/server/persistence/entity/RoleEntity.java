@@ -7,7 +7,7 @@ import javax.persistence.UniqueConstraint;
 
 
 @Entity
-@Table(uniqueConstraints = @UniqueConstraint(columnNames = {"roleName"}))
+@Table(name = "sys_role", uniqueConstraints = @UniqueConstraint(columnNames = {"roleName"}))
 public class RoleEntity extends BaseEntity {
 
 

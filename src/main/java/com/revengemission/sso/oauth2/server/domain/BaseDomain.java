@@ -1,4 +1,3 @@
-
 package com.revengemission.sso.oauth2.server.domain;
 
 import com.fasterxml.jackson.annotation.JsonInclude;

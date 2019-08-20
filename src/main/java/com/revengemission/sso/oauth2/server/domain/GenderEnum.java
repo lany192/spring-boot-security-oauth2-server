@@ -17,14 +17,14 @@ public enum GenderEnum {
 
     private String meaning;
 
-    public String getMeaning() {
-        return meaning;
-    }
-
     GenderEnum() {
     }
 
     GenderEnum(String meaning) {
         this.meaning = meaning;
+    }
+
+    public String getMeaning() {
+        return meaning;
     }
 }

@@ -10,10 +10,10 @@ class JwkSetEndpointConfiguration extends AuthorizationServerSecurityConfigurati
     protected void configure(HttpSecurity http) throws Exception {
         super.configure(http);
         http
-                .requestMatchers()
-                .mvcMatchers("/.well-known/jwks.json")
-                .and()
-                .authorizeRequests()
-                .mvcMatchers("/.well-known/jwks.json").permitAll();
+            .requestMatchers()
+            .mvcMatchers("/.well-known/jwks.json")
+            .and()
+            .authorizeRequests()
+            .mvcMatchers("/.well-known/jwks.json").permitAll();
     }
 }

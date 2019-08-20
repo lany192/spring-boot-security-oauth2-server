@@ -6,10 +6,10 @@ import java.util.List;
 
 public class JsonObjects<T> implements Serializable {
     /**
-	 * 
-	 */
-	private static final long serialVersionUID = 5382742283722856873L;
-	private List<T> data;
+     *
+     */
+    private static final long serialVersionUID = 5382742283722856873L;
+    private List<T> data;
     private int draw;
     private long recordsFiltered;
     private long recordsTotal;

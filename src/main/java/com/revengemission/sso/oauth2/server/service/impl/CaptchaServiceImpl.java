@@ -16,13 +16,11 @@ import org.springframework.stereotype.Service;
 @Service
 public class CaptchaServiceImpl implements CaptchaService {
 
-    private Logger log = LoggerFactory.getLogger(this.getClass());
-
-    @Value("${captcha.max.times:5}")
-    private int captchaMaxTimes;
-
     @Autowired
     CacheManager cacheManager;
+    private Logger log = LoggerFactory.getLogger(this.getClass());
+    @Value("${captcha.max.times:5}")
+    private int captchaMaxTimes;
 
     @Override
     public boolean saveCaptcha(CachesEnum cachesEnum, String key, Object value) {

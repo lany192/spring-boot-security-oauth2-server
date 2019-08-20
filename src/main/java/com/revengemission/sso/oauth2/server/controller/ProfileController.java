@@ -26,15 +26,12 @@ import java.util.regex.Pattern;
 @Controller
 public class ProfileController {
 
-    private Logger log = LoggerFactory.getLogger(this.getClass());
-
     private static final Pattern AUTHORIZATION_PATTERN = Pattern.compile("^Bearer (?<token>[a-zA-Z0-9-._~+/]+)=*$");
-
     @Autowired
     UserAccountService userAccountService;
-
     @Autowired
     TokenStore tokenStore;
+    private Logger log = LoggerFactory.getLogger(this.getClass());
 
     @ResponseBody
     @RequestMapping("/user/me")

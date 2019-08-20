@@ -25,19 +25,17 @@ import java.net.URLEncoder;
 
 @Component
 public class CustomAuthenticationFailureHandler extends SimpleUrlAuthenticationFailureHandler {
-    private Logger log = LoggerFactory.getLogger(this.getClass());
-    private String failureUrl = "/signIn";
-
     @Autowired
     UserAccountService userAccountService;
-
     @Autowired
     LoginHistoryService loginHistoryService;
+    private Logger log = LoggerFactory.getLogger(this.getClass());
+    private String failureUrl = "/signIn";
 
     @Override
     public void onAuthenticationFailure(HttpServletRequest request,
                                         HttpServletResponse response, AuthenticationException exception)
-            throws IOException {
+        throws IOException {
         String username = request.getParameter("username");
         log.debug(username + " try to login");
 
@@ -52,8 +50,8 @@ public class CustomAuthenticationFailureHandler extends SimpleUrlAuthenticationF
         userAccountService.loginFailure(username);
 
         boolean isAjax = "XMLHttpRequest".equals(request
-                .getHeader("X-Requested-With")) || "apiLogin".equals(request
-                .getHeader("api-login"));
+            .getHeader("X-Requested-With")) || "apiLogin".equals(request
+            .getHeader("api-login"));
         if (isAjax) {
             response.setHeader("Content-Type", "application/json;charset=UTF-8");
             try {
@@ -62,7 +60,7 @@ public class CustomAuthenticationFailureHandler extends SimpleUrlAuthenticationF
                 responseMessage.setMessage(exception.getMessage());
                 ObjectMapper objectMapper = new ObjectMapper();
                 JsonGenerator jsonGenerator = objectMapper.getFactory().createGenerator(response.getOutputStream(),
-                        JsonEncoding.UTF8);
+                    JsonEncoding.UTF8);
                 objectMapper.writeValue(jsonGenerator, responseMessage);
             } catch (Exception ex) {
                 if (log.isErrorEnabled()) {

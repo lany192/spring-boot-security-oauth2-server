@@ -7,7 +7,7 @@ import javax.persistence.UniqueConstraint;
 import java.util.Date;
 
 @Entity
-@Table(uniqueConstraints = @UniqueConstraint(columnNames = {"clientId"}))
+@Table(name = "sys_oauth_client", uniqueConstraints = @UniqueConstraint(columnNames = {"clientId"}))
 public class OauthClientEntity extends BaseEntity {
     /**
      *

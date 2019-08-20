@@ -18,9 +18,9 @@ public class UserInfo extends User {
                     boolean accountNonExpired, boolean credentialsNonExpired,
                     boolean accountNonLocked,
                     Collection<? extends GrantedAuthority> authorities)
-            throws IllegalArgumentException {
+        throws IllegalArgumentException {
         super(username, password, enabled, accountNonExpired,
-                credentialsNonExpired, accountNonLocked, authorities);
+            credentialsNonExpired, accountNonLocked, authorities);
         this.accountOpenCode = accountOpenCode;
     }
 

@@ -6,10 +6,13 @@ import java.util.List;
 
 
 @Entity
-@Table(uniqueConstraints = @UniqueConstraint(columnNames = {"thirdParty", "thirdPartyAccountId"}))
+@Table(name = "sys_third_account", uniqueConstraints = @UniqueConstraint(columnNames = {"thirdParty", "thirdPartyAccountId"}))
 public class ThirdPartyAccountEntity extends BaseEntity {
 
     private static final long serialVersionUID = -5519234457588411587L;
+    @ManyToMany(cascade = CascadeType.REMOVE, fetch = FetchType.EAGER)
+    @JoinTable(joinColumns = @JoinColumn(name = "third_party_account_id", referencedColumnName = "id"), foreignKey = @ForeignKey(ConstraintMode.NO_CONSTRAINT), inverseJoinColumns = @JoinColumn(name = "role_id", referencedColumnName = "id"), inverseForeignKey = @ForeignKey(ConstraintMode.NO_CONSTRAINT))
+    List<RoleEntity> roles = new ArrayList<>();
     @Column(nullable = false, columnDefinition = "VARCHAR(20)")
     private String thirdParty;
     @Column(nullable = false, columnDefinition = "VARCHAR(100)")
@@ -18,9 +21,6 @@ public class ThirdPartyAccountEntity extends BaseEntity {
      * 多种登陆方式合并账号使用
      */
     private String accountOpenCode;
-    @ManyToMany(cascade = CascadeType.REMOVE, fetch = FetchType.EAGER)
-    @JoinTable(joinColumns = @JoinColumn(name = "third_party_account_id", referencedColumnName = "id"), foreignKey = @ForeignKey(ConstraintMode.NO_CONSTRAINT), inverseJoinColumns = @JoinColumn(name = "role_id", referencedColumnName = "id"), inverseForeignKey = @ForeignKey(ConstraintMode.NO_CONSTRAINT))
-    List<RoleEntity> roles = new ArrayList<>();
     private String nickName;
     private String avatarUrl;
 

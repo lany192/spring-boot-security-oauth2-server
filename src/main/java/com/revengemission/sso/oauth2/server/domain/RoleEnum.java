@@ -17,14 +17,14 @@ public enum RoleEnum {
 
     private String meaning;
 
-    public String getMeaning() {
-        return meaning;
-    }
-
     RoleEnum() {
     }
 
     RoleEnum(String meaning) {
         this.meaning = meaning;
+    }
+
+    public String getMeaning() {
+        return meaning;
     }
 }

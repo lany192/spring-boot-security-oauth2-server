@@ -5,7 +5,7 @@ import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 
 @Entity
-@Table(uniqueConstraints = @UniqueConstraint(columnNames = {"scope"}))
+@Table(name = "sys_scope", uniqueConstraints = @UniqueConstraint(columnNames = {"scope"}))
 public class ScopeDefinitionEntity extends BaseEntity {
     /**
      *

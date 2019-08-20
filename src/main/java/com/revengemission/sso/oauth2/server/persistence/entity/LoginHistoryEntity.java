@@ -7,13 +7,13 @@ import javax.persistence.Table;
 
 
 @Entity
-@Table(indexes = {@Index(name = "index_username", columnList = "username")})
+@Table(name = "sys_login_history", indexes = {@Index(name = "index_username", columnList = "username")})
 public class LoginHistoryEntity extends BaseEntity {
 
     /**
-	 * 
-	 */
-	private static final long serialVersionUID = -7088423724470075317L;
+     *
+     */
+    private static final long serialVersionUID = -7088423724470075317L;
     /**
      * 用于记录用户在哪个子系统进行的登陆
      */

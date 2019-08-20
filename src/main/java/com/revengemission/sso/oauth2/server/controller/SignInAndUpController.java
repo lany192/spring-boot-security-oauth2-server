@@ -24,22 +24,17 @@ import java.util.UUID;
 
 @Controller
 public class SignInAndUpController {
-    private Logger log = LoggerFactory.getLogger(this.getClass());
-
     @Autowired
     UserAccountService userAccountService;
-
     @Autowired
     OauthClientService oauthClientService;
-
     @Autowired
     PasswordEncoder passwordEncoder;
-
     @Autowired
     CaptchaService captchaService;
-
     @Autowired
     RoleService roleService;
+    private Logger log = LoggerFactory.getLogger(this.getClass());
 
     @GetMapping("/signIn")
     public String signIn(@RequestParam(value = "error", required = false) String error,

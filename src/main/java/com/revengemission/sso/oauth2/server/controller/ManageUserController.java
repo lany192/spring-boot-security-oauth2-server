@@ -17,13 +17,11 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping(value = "/management/user")
 public class ManageUserController {
 
-    private Logger log = LoggerFactory.getLogger(this.getClass());
-
     @Autowired
     PasswordEncoder passwordEncoder;
-
     @Autowired
     UserAccountService userAccountService;
+    private Logger log = LoggerFactory.getLogger(this.getClass());
 
     @GetMapping(value = {"/", "", "/master"})
     public String master() {

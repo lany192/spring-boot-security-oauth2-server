@@ -14,7 +14,7 @@ public class CustomTokenEnhancer implements TokenEnhancer {
     /**
      * 自定义一些token属性
      *
-     * @param accessToken accessToken
+     * @param accessToken    accessToken
      * @param authentication authentication
      * @return OAuth2AccessToken
      */

@@ -15,34 +15,10 @@ import org.apache.commons.lang3.StringUtils;
  */
 public class CheckPasswordStrength {
 
-    public enum LEVEL {
-        /**
-         * 0-3
-         */
-        EASY,
-        /**
-         * 4-6
-         */
-        MEDIUM,
-        /**
-         * 7-9
-         */
-        STRONG,
-        /**
-         * 10-12
-         */
-        VERY_STRONG,
-        /**
-         * >12
-         */
-        EXTREMELY_STRONG
-    }
-
     private static final int NUM = 1;
     private static final int SMALL_LETTER = 2;
     private static final int CAPITAL_LETTER = 3;
     private static final int OTHER_CHAR = 4;
-
     /**
      * Simple password dictionary
      */
@@ -259,6 +235,29 @@ public class CheckPasswordStrength {
             default:
                 return LEVEL.EXTREMELY_STRONG;
         }
+    }
+
+    public enum LEVEL {
+        /**
+         * 0-3
+         */
+        EASY,
+        /**
+         * 4-6
+         */
+        MEDIUM,
+        /**
+         * 7-9
+         */
+        STRONG,
+        /**
+         * 10-12
+         */
+        VERY_STRONG,
+        /**
+         * >12
+         */
+        EXTREMELY_STRONG
     }
 
 }

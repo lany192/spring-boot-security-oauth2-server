@@ -19,9 +19,9 @@ authorization_code,implicit,password,client_credentials;
 #####
 * authorization_code模式：**用于PC端，页面跳转**，安全性最高，需要两步获取token
 ````
-1. Get /oauth/authorize?client_id=SampleClientId&response_type=code&redirect_uri=http://client.sso.com/login/oauth2/code/sso-login
+1. Get http://127.0.0.1:8080/oauth/authorize?client_id=SampleClientId&response_type=code&redirect_uri=http://www.baidu.com
 用户同意授权后服务端响应,浏览器重定向到：http://client.sso.com/login?code=1E37Xk，接收code,然后后端调用步骤2获取token
-2. Post /oauth/token?client_id=SampleClientId&client_secret=tgb.258&grant_type=authorization_code&redirect_uri=http://client.sso.com/login/oauth2/code/sso-login&code=1E37Xk
+2. Post http://127.0.0.1:8080/oauth/token?client_id=SampleClientId&client_secret=tgb.258&grant_type=authorization_code&redirect_uri=http://www.baidu.com&code=1E37Xk
 响应：
 {
     "access_token": "a.b.c",
@@ -35,7 +35,7 @@ authorization_code,implicit,password,client_credentials;
 ````
 * password模式：用于手机端或者其他无页面跳转场景，应由后台服务端调用，**保护client_id和client_secret**
 ````
-Post /oauth/token?client_id=SampleClientId&client_secret=tgb.258&grant_type=password&scope=user_info&username=zhangsan&password=tgb.258
+Post http://127.0.0.1:8080/oauth/token?client_id=SampleClientId&client_secret=tgb.258&grant_type=password&scope=user_info&username=zhangsan&password=tgb.258
 响应：
 {
     "access_token": "a.b.c",
@@ -54,7 +54,7 @@ keytool -genkey -alias jwt -keyalg RSA -keysize 1024 -keystore /your/path/to/jwt
 ````
 ## 获取jwt token签名的RSA公钥，用于本地验证token
 ````
-Get /oauth/token_key
+Get http://127.0.0.1:8080/oauth/token_key
 ````
 ## jwk-set-uri：resource server 可以得到jwt token签名公钥并缓存，进行本地验证
 ````
@@ -63,25 +63,25 @@ Get /.well-known/jwks.json
 
 ## 验证token，用于在资源端调用验证token是否有效</br>
 ````
-Post /oauth/check_token?token=a.b.c
+Post http://127.0.0.1:8080/oauth/check_token?token=a.b.c
 ````
 
 ## 访问受保护资源，请求时携带token</br>
 ````
-Get /user/me?access_token=a.b.c
+Get http://127.0.0.1:8080/user/me?access_token=a.b.c
 或者http header中加入Authorization,如下
 Authorization: Bearer a.b.c
 ````
 
 ## 刷新token</br>
 ````
-Post /oauth/token?client_id=SampleClientId&client_secret=tgb.258&grant_type=refresh_token&refresh_token=d.e.f
+Post http://127.0.0.1:8080/oauth/token?client_id=SampleClientId&client_secret=tgb.258&grant_type=refresh_token&refresh_token=d.e.f
 ````
 
 ## 注册新用户接口</br>
 ````
 1、获取验证码序号
- Get /captcha/graph
+ Get http://127.0.0.1:8080/captcha/graph
  响应：
  {
    "graphUrl": "/captcha/graph/print?graphId=32a41c71-d74a-4aa6-b73c-af3627e82485",
@@ -90,11 +90,11 @@ Post /oauth/token?client_id=SampleClientId&client_secret=tgb.258&grant_type=refr
    "status": 1
  }
 2、显示验证码
- Get /captcha/graph/print?graphId=a32a41c71-d74a-4aa6-b73c-af3627e82485
+ Get http://127.0.0.1:8080/captcha/graph/print?graphId=a32a41c71-d74a-4aa6-b73c-af3627e82485
  响应：
  图片流
 3、调用注册接口 
- Post /oauth/signUp?username=lisi&password=yourpass0!&graphId=a32a41c71-d74a-4aa6-b73c-af3627e82485&verificationCode=1324
+ Post http://127.0.0.1:8080/oauth/register?username=lisi&password=yourpass0!&graphId=a32a41c71-d74a-4aa6-b73c-af3627e82485&verificationCode=1324
  响应：
  {
      "status": 1,

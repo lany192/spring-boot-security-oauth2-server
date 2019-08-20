@@ -16,11 +16,10 @@ import java.util.Map;
 @FrameworkEndpoint
 class JwkSetEndpoint implements InitializingBean {
 
-    @Value("${jwt.jks.keypass:keypass}")
-    private String keypass;
-
     @Autowired
     KeyPair keyPair;
+    @Value("${jwt.jks.keypass:keypass}")
+    private String keypass;
 
     @GetMapping("/.well-known/jwks.json")
     @ResponseBody

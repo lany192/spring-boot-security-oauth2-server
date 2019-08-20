@@ -1,4 +1,3 @@
-
 package com.revengemission.sso.oauth2.server.domain;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
@@ -35,6 +34,17 @@ public class ResponseResult<T> implements Serializable {
 
     public ResponseResult() {
         this.status = GlobalConstant.SUCCESS;
+    }
+
+    public ResponseResult(int status, String message) {
+        this.status = status;
+        this.message = message;
+    }
+
+    public ResponseResult(int status, String message, T data) {
+        this.status = status;
+        this.message = message;
+        this.data = data;
     }
 
     public Long getId() {
@@ -125,16 +135,5 @@ public class ResponseResult<T> implements Serializable {
             return null;
         }
         return id + "";
-    }
-
-    public ResponseResult(int status, String message) {
-        this.status = status;
-        this.message = message;
-    }
-
-    public ResponseResult(int status, String message, T data) {
-        this.status = status;
-        this.message = message;
-        this.data = data;
     }
 }

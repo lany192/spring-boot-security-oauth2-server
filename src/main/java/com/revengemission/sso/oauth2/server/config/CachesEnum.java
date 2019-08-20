@@ -23,20 +23,19 @@ public enum CachesEnum {
     Oauth2ClientCache(60 * 60 * 2, 20),
     ;
 
+    private int maxSize = 100000;
+    private int ttl = 60 * 5;
+
     CachesEnum() {
     }
 
     CachesEnum(int ttl) {
         this.ttl = ttl;
     }
-
     CachesEnum(int ttl, int maxSize) {
         this.ttl = ttl;
         this.maxSize = maxSize;
     }
-
-    private int maxSize = 100000;
-    private int ttl = 60 * 5;
 
     public int getMaxSize() {
         return maxSize;

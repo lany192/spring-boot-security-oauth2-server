@@ -39,7 +39,7 @@ public class CustomAuthenticationSuccessHandler extends SavedRequestAwareAuthent
     @Override
     public void onAuthenticationSuccess(HttpServletRequest request,
                                         HttpServletResponse response, Authentication authentication)
-            throws IOException, ServletException {
+        throws IOException, ServletException {
 
         String redirectUrl = "";
         SavedRequest savedRequest = requestCache.getRequest(request, response);
@@ -57,8 +57,8 @@ public class CustomAuthenticationSuccessHandler extends SavedRequestAwareAuthent
         userAccountService.loginSuccess(authentication.getName());
 
         boolean isAjax = "XMLHttpRequest".equals(request
-                .getHeader("X-Requested-With")) || "apiLogin".equals(request
-                .getHeader("api-login"));
+            .getHeader("X-Requested-With")) || "apiLogin".equals(request
+            .getHeader("api-login"));
 
         if (isAjax) {
             response.setHeader("Content-Type", "application/json;charset=UTF-8");
@@ -69,7 +69,7 @@ public class CustomAuthenticationSuccessHandler extends SavedRequestAwareAuthent
                 responseMessage.setAdditional(redirectUrl);
                 ObjectMapper objectMapper = new ObjectMapper();
                 JsonGenerator jsonGenerator = objectMapper.getFactory().createGenerator(response.getOutputStream(),
-                        JsonEncoding.UTF8);
+                    JsonEncoding.UTF8);
                 objectMapper.writeValue(jsonGenerator, responseMessage);
             } catch (Exception ex) {
                 if (logger.isErrorEnabled()) {
