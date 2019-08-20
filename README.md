@@ -108,14 +108,14 @@ Post http://127.0.0.1:8080/oauth/token?client_id=SampleClientId&client_secret=tg
 
 ## 启动方法</br>
 ````
-java -jar oauth2-server-0.0.1-SNAPSHOT.jar
+java -jar spring-boot-security-oauth2-server-0.0.1-SNAPSHOT.jar
 或者指定配置文件覆盖默认配置
-java -jar oauth2-server-0.0.1-SNAPSHOT.jar --spring.config.additional-location=/path/to/override.properties
+java -jar spring-boot-security-oauth2-server-0.0.1-SNAPSHOT.jar --spring.config.additional-location=/path/to/override.properties
 ````
 ## 效果图
-![登录页](https://raw.githubusercontent.com/jobmission/oauth2-server/master/src/test/resources/static/imgs/login.png)
-![用户管理](https://raw.githubusercontent.com/jobmission/oauth2-server/master/src/test/resources/static/imgs/users.png)
-![client管理](https://raw.githubusercontent.com/jobmission/oauth2-server/master/src/test/resources/static/imgs/clients.png)
+![登录页](https://raw.githubusercontent.com/jobmission/spring-boot-security-oauth2-server/master/src/test/resources/static/imgs/login.png)
+![用户管理](https://raw.githubusercontent.com/jobmission/spring-boot-security-oauth2-server/master/src/test/resources/static/imgs/users.png)
+![client管理](https://raw.githubusercontent.com/jobmission/spring-boot-security-oauth2-server/master/src/test/resources/static/imgs/clients.png)
 
 ## OAuth 2 Developers Guide
 [spring-security-oauth官方文档](https://projects.spring.io/spring-security-oauth/docs/oauth2.html) <br/>
