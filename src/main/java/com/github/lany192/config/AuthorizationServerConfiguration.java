@@ -125,16 +125,16 @@ public class AuthorizationServerConfiguration extends AuthorizationServerConfigu
 
     @Bean
     public UserApprovalHandler userApprovalHandler() {
-        ApprovalStoreUserApprovalHandler userApprovalHandler = new ApprovalStoreUserApprovalHandler();
-        userApprovalHandler.setApprovalStore(approvalStore());
-        userApprovalHandler.setClientDetailsService(clientDetailsService);
-        userApprovalHandler.setRequestFactory(oAuth2RequestFactory());
-        return userApprovalHandler;
+        ApprovalStoreUserApprovalHandler handler = new ApprovalStoreUserApprovalHandler();
+        handler.setApprovalStore(approvalStore());
+        handler.setClientDetailsService(clientDetailsService);
+        handler.setRequestFactory(oAuth2RequestFactory());
+        return handler;
     }
 
     @Override
     public void configure(AuthorizationServerEndpointsConfigurer endpoints) {
-        // 注入authenticationManager来支持password模式
+        // 开启密码授权类型,注入authenticationManager来支持password模式
         endpoints.authenticationManager(authenticationManager);
         endpoints.accessTokenConverter(accessTokenConverter());
         endpoints.tokenStore(tokenStore());
@@ -148,6 +148,8 @@ public class AuthorizationServerConfiguration extends AuthorizationServerConfigu
 ///        endpoints.tokenEnhancer(tokenEnhancerChain);
         endpoints.userApprovalHandler(userApprovalHandler());
         //endpoints.allowedTokenEndpointRequestMethods(HttpMethod.GET, HttpMethod.POST);
+        //自定义登录或者鉴权失败时的返回信息
+        //endpoints.exceptionTranslator(webResponseExceptionTranslator);
     }
 
     @Override
