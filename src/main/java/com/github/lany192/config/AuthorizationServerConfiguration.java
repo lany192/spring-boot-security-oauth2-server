@@ -12,7 +12,6 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
 import org.springframework.core.io.ClassPathResource;
-import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.oauth2.config.annotation.configurers.ClientDetailsServiceConfigurer;
@@ -139,6 +138,7 @@ public class AuthorizationServerConfiguration extends AuthorizationServerConfigu
         endpoints.authenticationManager(authenticationManager);
         endpoints.accessTokenConverter(accessTokenConverter());
         endpoints.tokenStore(tokenStore());
+        //endpoints.approvalStore(approvalStore);
         // !!!要使用refresh_token的话，需要额外配置userDetailsService!!!
         endpoints.userDetailsService(userDetailsService);
         endpoints.reuseRefreshTokens(true);
@@ -147,7 +147,7 @@ public class AuthorizationServerConfiguration extends AuthorizationServerConfigu
         // 设了 tokenGranter 后该配制失效,需要在 tokenServices() 中设置
 ///        endpoints.tokenEnhancer(tokenEnhancerChain);
         endpoints.userApprovalHandler(userApprovalHandler());
-        endpoints.allowedTokenEndpointRequestMethods(HttpMethod.GET, HttpMethod.POST);
+        //endpoints.allowedTokenEndpointRequestMethods(HttpMethod.GET, HttpMethod.POST);
     }
 
     @Override

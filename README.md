@@ -19,7 +19,7 @@ authorization_code,implicit,password,client_credentials;
 #####
 * authorization_code模式：**用于PC端，页面跳转**，安全性最高，需要两步获取token
 ````
-1. Get http://127.0.0.1:8080/oauth/authorize?client_id=SampleClientId&response_type=code&redirect_uri=http://www.baidu.com
+1. Get http://127.0.0.1:8080/oauth/authorize?client_id=SampleClientId&response_type=code&redirect_uri=http://www.baidu.com&state=abc
 用户同意授权后服务端响应,浏览器重定向到：http://client.sso.com/login?code=1E37Xk，接收code,然后后端调用步骤2获取token
 2. Post http://127.0.0.1:8080/oauth/token?client_id=SampleClientId&client_secret=tgb.258&grant_type=authorization_code&redirect_uri=http://www.baidu.com&code=1E37Xk
 响应：
