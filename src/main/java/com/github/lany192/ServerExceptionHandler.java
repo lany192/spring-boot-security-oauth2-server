@@ -1,7 +1,7 @@
 package com.github.lany192;
 
 import com.github.lany192.utils.JsonUtil;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -17,15 +17,11 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
+@Slf4j
 @ControllerAdvice
 public class ServerExceptionHandler {
 
-    private final org.slf4j.Logger log = LoggerFactory.getLogger(this.getClass());
-
-
-    @ExceptionHandler({
-        NoHandlerFoundException.class
-    })
+    @ExceptionHandler({NoHandlerFoundException.class})
     public ResponseEntity<Object> handleNoHandlerFoundException(Exception ex, HttpServletRequest request) {
         HttpStatus httpStatus = HttpStatus.NOT_FOUND;
         logRequest(ex, httpStatus, request);
@@ -37,12 +33,9 @@ public class ServerExceptionHandler {
         return new ResponseEntity<>(responseResult, headers, httpStatus);
     }
 
-    @ExceptionHandler({
-        AccessControlException.class, AccessDeniedException.class
-    })
+    @ExceptionHandler({AccessControlException.class, AccessDeniedException.class})
     @ResponseBody
     ResponseEntity<Object> handleDeniedException(Exception ex, HttpServletRequest request) {
-
         HttpStatus httpStatus = HttpStatus.FORBIDDEN;
         logRequest(ex, httpStatus, request);
         HttpHeaders headers = new HttpHeaders();
@@ -66,7 +59,6 @@ public class ServerExceptionHandler {
     @ExceptionHandler(Exception.class)
     @ResponseBody
     ResponseEntity<Object> handleException(Exception ex, HttpServletRequest request) {
-
         HttpStatus httpStatus = HttpStatus.INTERNAL_SERVER_ERROR;
         logRequest(ex, httpStatus, request);
         HttpHeaders headers = new HttpHeaders();
@@ -81,10 +73,6 @@ public class ServerExceptionHandler {
 
     /**
      * 记录下请求内容
-     *
-     * @param ex
-     * @param status
-     * @param request
      */
     private void logRequest(Exception ex, HttpStatus status, HttpServletRequest request) {
         Map<String, String[]> parameters = request.getParameterMap();
@@ -100,5 +88,4 @@ public class ServerExceptionHandler {
             log.error("ControllerAdvice log  Exception", e);
         }
     }
-
 }
