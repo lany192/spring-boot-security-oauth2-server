@@ -12,9 +12,9 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
 import org.springframework.core.io.ClassPathResource;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.oauth2.common.OAuth2AccessToken;
 import org.springframework.security.oauth2.config.annotation.configurers.ClientDetailsServiceConfigurer;
 import org.springframework.security.oauth2.config.annotation.web.configuration.AuthorizationServerConfigurerAdapter;
 import org.springframework.security.oauth2.config.annotation.web.configuration.AuthorizationServerEndpointsConfiguration;
@@ -22,7 +22,6 @@ import org.springframework.security.oauth2.config.annotation.web.configurers.Aut
 import org.springframework.security.oauth2.config.annotation.web.configurers.AuthorizationServerSecurityConfigurer;
 import org.springframework.security.oauth2.provider.CompositeTokenGranter;
 import org.springframework.security.oauth2.provider.TokenGranter;
-import org.springframework.security.oauth2.provider.TokenRequest;
 import org.springframework.security.oauth2.provider.approval.ApprovalStore;
 import org.springframework.security.oauth2.provider.approval.ApprovalStoreUserApprovalHandler;
 import org.springframework.security.oauth2.provider.approval.TokenApprovalStore;
@@ -143,12 +142,12 @@ public class AuthorizationServerConfiguration extends AuthorizationServerConfigu
         // !!!要使用refresh_token的话，需要额外配置userDetailsService!!!
         endpoints.userDetailsService(userDetailsService);
         endpoints.reuseRefreshTokens(true);
-        endpoints.tokenGranter(tokenGranter());
+        endpoints.tokenGranter(new CompositeTokenGranter(getTokenGranters()));
         endpoints.authorizationCodeServices(authorizationCodeServices());
         // 设了 tokenGranter 后该配制失效,需要在 tokenServices() 中设置
 ///        endpoints.tokenEnhancer(tokenEnhancerChain);
         endpoints.userApprovalHandler(userApprovalHandler());
-
+        endpoints.allowedTokenEndpointRequestMethods(HttpMethod.GET, HttpMethod.POST);
     }
 
     @Override
@@ -166,56 +165,38 @@ public class AuthorizationServerConfiguration extends AuthorizationServerConfigu
 
     @Bean
     public DefaultTokenServices authorizationServerTokenServices() {
-        DefaultTokenServices defaultTokenServices = new DefaultTokenServices();
-        defaultTokenServices.setTokenStore(tokenStore());
-        defaultTokenServices.setSupportRefreshToken(true);
+        DefaultTokenServices services = new DefaultTokenServices();
+        services.setTokenStore(tokenStore());
+        services.setSupportRefreshToken(true);
         //token 有效时间,默认12h
-        defaultTokenServices.setClientDetailsService(clientDetailsService);
+        services.setClientDetailsService(clientDetailsService);
         // 如果没有设置它,JWT就失效了.
-        defaultTokenServices.setTokenEnhancer(tokenEnhancer());
-        return defaultTokenServices;
+        services.setTokenEnhancer(tokenEnhancer());
+        return services;
     }
 
-    /**
-     * 通过 tokenGranter 塞进去的就是它了
-     */
-    private TokenGranter tokenGranter() {
-        return new TokenGranter() {
-            private CompositeTokenGranter delegate;
-
-            @Override
-            public OAuth2AccessToken grant(String grantType, TokenRequest tokenRequest) {
-                if (delegate == null) {
-                    delegate = new CompositeTokenGranter(getDefaultTokenGranters());
-                }
-                return delegate.grant(grantType, tokenRequest);
-            }
-        };
-    }
-
-    private List<TokenGranter> getDefaultTokenGranters() {
-
-        List<TokenGranter> tokenGranters = new ArrayList<>();
-        tokenGranters.add(new AuthorizationCodeTokenGranter(authorizationServerTokenServices(),
+    private List<TokenGranter> getTokenGranters() {
+        List<TokenGranter> granters = new ArrayList<>();
+        granters.add(new AuthorizationCodeTokenGranter(authorizationServerTokenServices(),
             authorizationCodeServices(), clientDetailsService, oAuth2RequestFactory()));
-        tokenGranters.add(new RefreshTokenGranter(authorizationServerTokenServices(), clientDetailsService,
+        granters.add(new RefreshTokenGranter(authorizationServerTokenServices(), clientDetailsService,
             oAuth2RequestFactory()));
         ImplicitTokenGranter implicit = new ImplicitTokenGranter(authorizationServerTokenServices(),
             clientDetailsService, oAuth2RequestFactory());
-        tokenGranters.add(implicit);
-        tokenGranters.add(new ClientCredentialsTokenGranter(authorizationServerTokenServices(), clientDetailsService,
+        granters.add(implicit);
+        granters.add(new ClientCredentialsTokenGranter(authorizationServerTokenServices(), clientDetailsService,
             oAuth2RequestFactory()));
         if (authenticationManager != null) {
-            tokenGranters.add(new ResourceOwnerPasswordTokenGranter(authenticationManager,
+            granters.add(new ResourceOwnerPasswordTokenGranter(authenticationManager,
                 authorizationServerTokenServices(), clientDetailsService, oAuth2RequestFactory()));
         }
 
-        tokenGranters.add(new SmsCodeTokenGranter(userDetailsService, authorizationServerTokenServices(),
+        granters.add(new SmsCodeTokenGranter(userDetailsService, authorizationServerTokenServices(),
             clientDetailsService, oAuth2RequestFactory(), captchaService));
 
-        tokenGranters.add(new WeChatMiniProgramTokenGranter(thirdAccountRepository, roleRepository, authorizationServerTokenServices(),
+        granters.add(new WeChatMiniProgramTokenGranter(thirdAccountRepository, roleRepository, authorizationServerTokenServices(),
             clientDetailsService, oAuth2RequestFactory(), appId, secret));
-        return tokenGranters;
+        return granters;
     }
 
     @Override

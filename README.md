@@ -35,7 +35,7 @@ authorization_code,implicit,password,client_credentials;
 ````
 * password模式：用于手机端或者其他无页面跳转场景，应由后台服务端调用，**保护client_id和client_secret**
 ````
-Post http://127.0.0.1:8080/oauth/token?client_id=SampleClientId&client_secret=tgb.258&grant_type=password&scope=user_info&username=zhangsan&password=tgb.258
+Post http://127.0.0.1:8080/oauth/token?client_id=SampleClientId&client_secret=tgb.258&grant_type=password&scope=user_info&username=admin&password=tgb.258
 响应：
 {
     "access_token": "a.b.c",
