@@ -1,13 +1,12 @@
 package com.github.lany192.controller;
 
 import com.github.lany192.config.CachesEnum;
-import com.revengemission.commons.captcha.core.VerificationCodeUtil;
 import com.github.lany192.service.CaptchaService;
 import com.github.lany192.service.UserAccountService;
+import com.revengemission.commons.captcha.core.VerificationCodeUtil;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.commons.lang3.StringUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -21,13 +20,10 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 
+@Slf4j
 @Controller
 public class CaptchaController {
-
-    private Logger log = LoggerFactory.getLogger(this.getClass());
-
     private CaptchaService captchaService;
-
     private UserAccountService userAccountService;
 
     @Autowired

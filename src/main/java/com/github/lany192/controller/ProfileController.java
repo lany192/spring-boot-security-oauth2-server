@@ -4,10 +4,9 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import com.github.lany192.domain.EntityNotFoundException;
 import com.github.lany192.domain.UserAccount;
 import com.github.lany192.service.UserAccountService;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.text.StringEscapeUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.security.oauth2.common.OAuth2AccessToken;
@@ -23,6 +22,7 @@ import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+@Slf4j
 @Controller
 public class ProfileController {
 
@@ -31,7 +31,6 @@ public class ProfileController {
     UserAccountService userAccountService;
     @Autowired
     TokenStore tokenStore;
-    private Logger log = LoggerFactory.getLogger(this.getClass());
 
     @ResponseBody
     @RequestMapping("/user/me")

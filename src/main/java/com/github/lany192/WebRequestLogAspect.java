@@ -2,14 +2,13 @@ package com.github.lany192;
 
 import com.github.lany192.utils.ClientIpUtil;
 import com.github.lany192.utils.JsonUtil;
+import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.AfterReturning;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Before;
 import org.aspectj.lang.annotation.Pointcut;
 import org.aspectj.lang.reflect.MethodSignature;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.context.request.RequestContextHolder;
@@ -19,14 +18,12 @@ import javax.servlet.http.HttpServletRequest;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Method;
 import java.util.Map;
-
+@Slf4j
 @Aspect
 @Component
 public class WebRequestLogAspect {
 
-    private Logger log = LoggerFactory.getLogger(this.getClass());
-
-    @Pointcut("execution(public * com.revengemission.sso.oauth2.server.controller.*.*(..))")
+    @Pointcut("execution(public * com.github.lany192.controller.*.*(..))")
     public void wsLog() {
     }
 

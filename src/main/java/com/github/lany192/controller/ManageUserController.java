@@ -1,27 +1,25 @@
 package com.github.lany192.controller;
 
 import com.github.lany192.domain.GlobalConstant;
-import com.github.lany192.domain.ResponseResult;
 import com.github.lany192.domain.JsonObjects;
+import com.github.lany192.domain.ResponseResult;
 import com.github.lany192.domain.UserAccount;
 import com.github.lany192.service.UserAccountService;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+@Slf4j
 @Controller
 @RequestMapping(value = "/management/user")
 public class ManageUserController {
-
     @Autowired
     PasswordEncoder passwordEncoder;
     @Autowired
     UserAccountService userAccountService;
-    private Logger log = LoggerFactory.getLogger(this.getClass());
 
     @GetMapping(value = {"/", "", "/master"})
     public String master() {

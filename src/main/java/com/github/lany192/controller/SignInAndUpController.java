@@ -2,16 +2,14 @@ package com.github.lany192.controller;
 
 import com.github.lany192.config.CachesEnum;
 import com.github.lany192.domain.*;
-import com.github.lany192.utils.CheckPasswordStrength;
-import com.revengemission.sso.oauth2.server.domain.*;
 import com.github.lany192.service.CaptchaService;
 import com.github.lany192.service.OauthClientService;
 import com.github.lany192.service.RoleService;
 import com.github.lany192.service.UserAccountService;
+import com.github.lany192.utils.CheckPasswordStrength;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.text.StringEscapeUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
@@ -23,6 +21,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.util.UUID;
 
+@Slf4j
 @Controller
 public class SignInAndUpController {
     @Autowired
@@ -35,11 +34,9 @@ public class SignInAndUpController {
     CaptchaService captchaService;
     @Autowired
     RoleService roleService;
-    private Logger log = LoggerFactory.getLogger(this.getClass());
 
     @GetMapping("/signIn")
-    public String signIn(@RequestParam(value = "error", required = false) String error,
-                         Model model) {
+    public String signIn(@RequestParam(value = "error", required = false) String error, Model model) {
         if (StringUtils.isNotEmpty(error)) {
             model.addAttribute("error", error);
         }
@@ -47,8 +44,7 @@ public class SignInAndUpController {
     }
 
     @GetMapping("/signUp")
-    public String signUp(@RequestParam(value = "error", required = false) String error,
-                         Model model) {
+    public String signUp(@RequestParam(value = "error", required = false) String error, Model model) {
         if (StringUtils.isNotEmpty(error)) {
             model.addAttribute("error", error);
         }

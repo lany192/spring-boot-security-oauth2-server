@@ -1,20 +1,21 @@
 package com.github.lany192.controller;
 
 import com.github.lany192.domain.GlobalConstant;
-import com.github.lany192.domain.ResponseResult;
 import com.github.lany192.domain.JsonObjects;
 import com.github.lany192.domain.OauthClient;
+import com.github.lany192.domain.ResponseResult;
 import com.github.lany192.service.OauthClientService;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+@Slf4j
 @Controller
 @RequestMapping(value = "/management/client")
 public class ManageClientController {
-
     @Autowired
     PasswordEncoder passwordEncoder;
 

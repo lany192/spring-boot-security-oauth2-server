@@ -1,9 +1,10 @@
 package com.github.lany192.controller;
 
-import com.github.lany192.domain.ScopeDefinition;
 import com.github.lany192.domain.OauthClient;
+import com.github.lany192.domain.ScopeDefinition;
 import com.github.lany192.service.OauthClientService;
 import com.github.lany192.service.ScopeDefinitionService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.oauth2.common.util.OAuth2Utils;
 import org.springframework.security.oauth2.provider.AuthorizationRequest;
@@ -18,6 +19,7 @@ import java.net.URI;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
+@Slf4j
 @Controller
 @RequestMapping("/oauth")
 @SessionAttributes("authorizationRequest")
