@@ -5,7 +5,7 @@ import com.github.lany192.exception.EntityNotFoundException;
 import com.github.lany192.entity.RoleEntity;
 import com.github.lany192.entity.Account;
 import com.github.lany192.repository.RoleRepository;
-import com.github.lany192.repository.UserAccountRepository;
+import com.github.lany192.repository.AccountRepository;
 import com.github.lany192.utils.DateUtil;
 import com.github.lany192.exception.AlreadyExistsException;
 import com.github.lany192.domain.JsonObjects;
@@ -29,7 +29,7 @@ import java.util.Optional;
 public class UserAccountServiceImpl implements UserAccountService {
 
     @Autowired
-    UserAccountRepository userAccountRepository;
+    AccountRepository accountRepository;
 
     @Autowired
     RoleRepository roleRepository;
@@ -52,9 +52,9 @@ public class UserAccountServiceImpl implements UserAccountService {
         Pageable pageable = PageRequest.of(pageNum - 1, pageSize, sort);
         Page<Account> page;
         if (StringUtils.isBlank(username)) {
-            page = userAccountRepository.findAll(pageable);
+            page = accountRepository.findAll(pageable);
         } else {
-            page = userAccountRepository.findByUsernameLike(username + "%", pageable);
+            page = accountRepository.findByUsernameLike(username + "%", pageable);
         }
         if (page.getContent() != null && page.getContent().size() > 0) {
             jsonObjects.setRecordsTotal(page.getTotalElements());
@@ -68,7 +68,7 @@ public class UserAccountServiceImpl implements UserAccountService {
     @Override
     @Transactional(rollbackFor = Exception.class)
     public UserAccount create(UserAccount userAccount) throws AlreadyExistsException {
-        Account exist = userAccountRepository.findByUsername(userAccount.getUsername());
+        Account exist = accountRepository.findByUsername(userAccount.getUsername());
         if (exist != null) {
             throw new AlreadyExistsException(userAccount.getUsername() + " already exists!");
         }
@@ -82,20 +82,20 @@ public class UserAccountServiceImpl implements UserAccountService {
                 }
             });
         }
-        userAccountRepository.save(account);
+        accountRepository.save(account);
         return dozerMapper.map(account, UserAccount.class);
     }
 
     @Override
     public UserAccount retrieveById(long id) throws EntityNotFoundException {
-        Optional<Account> entityOptional = userAccountRepository.findById(id);
+        Optional<Account> entityOptional = accountRepository.findById(id);
         return dozerMapper.map(entityOptional.orElseThrow(EntityNotFoundException::new), UserAccount.class);
     }
 
     @Override
     @Transactional(rollbackFor = Exception.class)
     public UserAccount updateById(UserAccount userAccount) throws EntityNotFoundException {
-        Optional<Account> entityOptional = userAccountRepository.findById(Long.parseLong(userAccount.getId()));
+        Optional<Account> entityOptional = accountRepository.findById(Long.parseLong(userAccount.getId()));
         Account e = entityOptional.orElseThrow(EntityNotFoundException::new);
         if (StringUtils.isNotEmpty(userAccount.getPassword())) {
             e.setPassword(userAccount.getPassword());
@@ -109,22 +109,22 @@ public class UserAccountServiceImpl implements UserAccountService {
         e.setAvatarUrl(userAccount.getAvatarUrl());
         e.setEmail(userAccount.getEmail());
 
-        userAccountRepository.save(e);
+        accountRepository.save(e);
         return dozerMapper.map(e, UserAccount.class);
     }
 
     @Override
     @Transactional(rollbackFor = Exception.class)
     public void updateRecordStatus(long id, int recordStatus) {
-        Optional<Account> entityOptional = userAccountRepository.findById(id);
+        Optional<Account> entityOptional = accountRepository.findById(id);
         Account e = entityOptional.orElseThrow(EntityNotFoundException::new);
         e.setRecordStatus(recordStatus);
-        userAccountRepository.save(e);
+        accountRepository.save(e);
     }
 
     @Override
     public UserAccount findByUsername(String username) throws EntityNotFoundException {
-        Account account = userAccountRepository.findByUsername(username);
+        Account account = accountRepository.findByUsername(username);
         if (account != null) {
             return dozerMapper.map(account, UserAccount.class);
         } else {
@@ -134,18 +134,18 @@ public class UserAccountServiceImpl implements UserAccountService {
 
     @Override
     public boolean existsByUsername(String username) {
-        return userAccountRepository.existsByUsername(username);
+        return accountRepository.existsByUsername(username);
     }
 
     @Override
     @Transactional(rollbackFor = Exception.class)
     @Async
     public void loginSuccess(String username) throws EntityNotFoundException {
-        Account account = userAccountRepository.findByUsername(username);
+        Account account = accountRepository.findByUsername(username);
         if (account != null) {
             account.setFailureCount(0);
             account.setFailureTime(null);
-            userAccountRepository.save(account);
+            accountRepository.save(account);
         } else {
             throw new EntityNotFoundException(username + " not found!");
         }
@@ -154,7 +154,7 @@ public class UserAccountServiceImpl implements UserAccountService {
     @Override
     @Transactional(rollbackFor = Exception.class)
     public void loginFailure(String username) {
-        Account account = userAccountRepository.findByUsername(username);
+        Account account = accountRepository.findByUsername(username);
         if (account != null) {
             if (account.getFailureTime() == null) {
                 account.setFailureCount(1);
@@ -169,7 +169,7 @@ public class UserAccountServiceImpl implements UserAccountService {
             if (account.getFailureCount() >= failureMax && account.getRecordStatus() >= 0) {
                 account.setRecordStatus(-1);
             }
-            userAccountRepository.save(account);
+            accountRepository.save(account);
         }
     }
 }

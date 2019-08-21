@@ -18,20 +18,14 @@ import javax.servlet.http.HttpServletRequest;
 
 @Configuration
 public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
-
-
     @Autowired
     CustomAuthenticationFailureHandler customAuthenticationFailureHandler;
-
     @Autowired
     CustomAuthenticationSuccessHandler customAuthenticationSuccessHandler;
-
     @Autowired
     CustomAccessDeniedHandler customAccessDeniedHandler;
-
     @Autowired
     AuthenticationDetailsSource<HttpServletRequest, WebAuthenticationDetails> authenticationDetailsSource;
-
     @Autowired
     AuthenticationProvider customAuthenticationProvider;
 

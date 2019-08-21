@@ -3,7 +3,7 @@ package com.github.lany192.service.impl;
 import com.github.lany192.domain.UserInfo;
 import com.github.lany192.entity.RoleEntity;
 import com.github.lany192.entity.Account;
-import com.github.lany192.repository.UserAccountRepository;
+import com.github.lany192.repository.AccountRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -18,11 +18,11 @@ import java.util.List;
 @Service
 public class UserDetailsServiceImpl implements UserDetailsService {
     @Autowired
-    UserAccountRepository userAccountRepository;
+    AccountRepository accountRepository;
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        Account account = userAccountRepository.findByUsername(username);
+        Account account = accountRepository.findByUsername(username);
         if (account != null) {
             List<GrantedAuthority> grantedAuthorities = new ArrayList<>();
             if (account.getRoles() != null && account.getRoles().size() > 0) {

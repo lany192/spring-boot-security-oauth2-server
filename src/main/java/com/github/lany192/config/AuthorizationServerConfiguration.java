@@ -1,7 +1,7 @@
 package com.github.lany192.config;
 
 import com.github.lany192.repository.RoleRepository;
-import com.github.lany192.repository.ThirdPartyAccountRepository;
+import com.github.lany192.repository.ThirdAccountRepository;
 import com.github.lany192.service.CaptchaService;
 import com.github.lany192.service.impl.ClientDetailsServiceImpl;
 import org.springframework.beans.factory.InitializingBean;
@@ -58,7 +58,7 @@ public class AuthorizationServerConfiguration extends AuthorizationServerConfigu
     @Autowired
     CaptchaService captchaService;
     @Autowired
-    ThirdPartyAccountRepository thirdPartyAccountRepository;
+    ThirdAccountRepository thirdAccountRepository;
     @Autowired
     RoleRepository roleRepository;
     @Autowired
@@ -213,7 +213,7 @@ public class AuthorizationServerConfiguration extends AuthorizationServerConfigu
         tokenGranters.add(new SmsCodeTokenGranter(userDetailsService, authorizationServerTokenServices(),
             clientDetailsService, oAuth2RequestFactory(), captchaService));
 
-        tokenGranters.add(new WeChatMiniProgramTokenGranter(thirdPartyAccountRepository, roleRepository, authorizationServerTokenServices(),
+        tokenGranters.add(new WeChatMiniProgramTokenGranter(thirdAccountRepository, roleRepository, authorizationServerTokenServices(),
             clientDetailsService, oAuth2RequestFactory(), appId, secret));
         return tokenGranters;
     }
