@@ -1,12 +1,14 @@
 package com.github.lany192.domain;
 
+import lombok.Getter;
+import lombok.Setter;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.User;
 
 import java.util.Collection;
-
+@Setter
+@Getter
 public class UserInfo extends User {
-    private static final long serialVersionUID = -1682227070901462452L;
     private String accountOpenCode;
     private String nickname;
 
@@ -23,21 +25,4 @@ public class UserInfo extends User {
             credentialsNonExpired, accountNonLocked, authorities);
         this.accountOpenCode = accountOpenCode;
     }
-
-    public String getAccountOpenCode() {
-        return accountOpenCode;
-    }
-
-    public void setAccountOpenCode(String accountOpenCode) {
-        this.accountOpenCode = accountOpenCode;
-    }
-
-    public String getNickname() {
-        return nickname;
-    }
-
-    public void setNickname(String nickname) {
-        this.nickname = nickname;
-    }
-
 }

@@ -1,16 +1,13 @@
 package com.github.lany192.domain;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.ToString;
+import lombok.*;
 
 import java.util.Date;
 
+@Setter
+@Getter
 @JsonInclude(JsonInclude.Include.NON_NULL)
-@ToString(callSuper = true)
-@EqualsAndHashCode(callSuper = true)
-@Data
 public class OauthClient extends BaseDomain {
     /**
      *
