@@ -1,6 +1,6 @@
 package com.github.lany192.service;
 
-import com.github.lany192.domain.EntityNotFoundException;
+import com.github.lany192.exception.EntityNotFoundException;
 import com.github.lany192.domain.JsonObjects;
 import com.github.lany192.domain.UserAccount;
 

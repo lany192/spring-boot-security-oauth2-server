@@ -1,10 +1,10 @@
 package com.github.lany192.service.impl;
 
 import com.github.lany192.config.CachesEnum;
-import com.github.lany192.domain.InvalidClientException;
+import com.github.lany192.exception.InvalidClientException;
 import com.github.lany192.persistence.entity.OauthClientEntity;
 import com.github.lany192.persistence.repository.OauthClientRepository;
-import com.github.lany192.domain.AlreadyExpiredException;
+import com.github.lany192.exception.AlreadyExpiredException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.Cache;
 import org.springframework.cache.CacheManager;

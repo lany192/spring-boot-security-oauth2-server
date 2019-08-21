@@ -1,13 +1,13 @@
 package com.github.lany192.service.impl;
 
 import com.github.dozermapper.core.Mapper;
-import com.github.lany192.domain.EntityNotFoundException;
+import com.github.lany192.exception.EntityNotFoundException;
 import com.github.lany192.persistence.entity.RoleEntity;
 import com.github.lany192.persistence.entity.UserAccountEntity;
 import com.github.lany192.persistence.repository.RoleRepository;
 import com.github.lany192.persistence.repository.UserAccountRepository;
 import com.github.lany192.utils.DateUtil;
-import com.github.lany192.domain.AlreadyExistsException;
+import com.github.lany192.exception.AlreadyExistsException;
 import com.github.lany192.domain.JsonObjects;
 import com.github.lany192.domain.UserAccount;
 import com.github.lany192.service.UserAccountService;

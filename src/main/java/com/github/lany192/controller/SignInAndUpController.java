@@ -2,6 +2,7 @@ package com.github.lany192.controller;
 
 import com.github.lany192.config.CachesEnum;
 import com.github.lany192.domain.*;
+import com.github.lany192.exception.AlreadyExistsException;
 import com.github.lany192.service.CaptchaService;
 import com.github.lany192.service.OauthClientService;
 import com.github.lany192.service.RoleService;

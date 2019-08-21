@@ -1,10 +1,10 @@
 package com.github.lany192.service.impl;
 
 import com.github.dozermapper.core.Mapper;
-import com.github.lany192.domain.EntityNotFoundException;
+import com.github.lany192.exception.EntityNotFoundException;
 import com.github.lany192.persistence.entity.OauthClientEntity;
 import com.github.lany192.persistence.repository.OauthClientRepository;
-import com.github.lany192.domain.AlreadyExistsException;
+import com.github.lany192.exception.AlreadyExistsException;
 import com.github.lany192.domain.JsonObjects;
 import com.github.lany192.domain.OauthClient;
 import com.github.lany192.service.OauthClientService;

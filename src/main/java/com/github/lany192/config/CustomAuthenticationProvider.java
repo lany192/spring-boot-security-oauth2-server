@@ -1,7 +1,7 @@
 package com.github.lany192.config;
 
 import com.github.lany192.domain.GlobalConstant;
-import com.github.lany192.domain.VerificationCodeException;
+import com.github.lany192.exception.VerificationCodeException;
 import com.github.lany192.service.CaptchaService;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;

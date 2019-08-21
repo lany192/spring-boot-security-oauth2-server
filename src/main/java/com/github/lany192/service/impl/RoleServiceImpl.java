@@ -3,7 +3,7 @@ package com.github.lany192.service.impl;
 import com.github.dozermapper.core.Mapper;
 import com.github.lany192.persistence.entity.RoleEntity;
 import com.github.lany192.persistence.repository.RoleRepository;
-import com.github.lany192.domain.NotImplementException;
+import com.github.lany192.exception.NotImplementException;
 import com.github.lany192.domain.Role;
 import com.github.lany192.service.RoleService;
 import org.springframework.beans.factory.annotation.Autowired;

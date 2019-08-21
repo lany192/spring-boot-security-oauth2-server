@@ -1,7 +1,7 @@
 package com.github.lany192.controller;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import com.github.lany192.domain.EntityNotFoundException;
+import com.github.lany192.exception.EntityNotFoundException;
 import com.github.lany192.domain.UserAccount;
 import com.github.lany192.service.UserAccountService;
 import lombok.extern.slf4j.Slf4j;

@@ -1,6 +1,6 @@
 package com.github.lany192.service;
 
-import com.github.lany192.domain.NotImplementException;
+import com.github.lany192.exception.NotImplementException;
 import com.github.lany192.domain.Role;
 
 public interface RoleService extends CommonServiceInterface<Role> {

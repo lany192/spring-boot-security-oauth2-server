@@ -4,7 +4,7 @@ import com.github.dozermapper.core.Mapper;
 import com.github.lany192.domain.LoginHistory;
 import com.github.lany192.persistence.entity.LoginHistoryEntity;
 import com.github.lany192.persistence.repository.LoginHistoryRepository;
-import com.github.lany192.domain.AlreadyExistsException;
+import com.github.lany192.exception.AlreadyExistsException;
 import com.github.lany192.domain.JsonObjects;
 import com.github.lany192.service.LoginHistoryService;
 import org.apache.commons.lang3.StringUtils;

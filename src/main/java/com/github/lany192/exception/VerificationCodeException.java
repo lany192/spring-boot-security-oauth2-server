@@ -1,4 +1,4 @@
-package com.github.lany192.domain;
+package com.github.lany192.exception;
 
 import org.springframework.security.core.AuthenticationException;
 
