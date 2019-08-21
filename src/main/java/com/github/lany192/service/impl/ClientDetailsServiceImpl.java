@@ -2,8 +2,8 @@ package com.github.lany192.service.impl;
 
 import com.github.lany192.config.CachesEnum;
 import com.github.lany192.exception.InvalidClientException;
-import com.github.lany192.persistence.entity.OauthClientEntity;
-import com.github.lany192.persistence.repository.OauthClientRepository;
+import com.github.lany192.entity.OauthClient;
+import com.github.lany192.repository.OauthClientRepository;
 import com.github.lany192.exception.AlreadyExpiredException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.Cache;
@@ -39,45 +39,45 @@ public class ClientDetailsServiceImpl implements ClientDetailsService {
             return (ClientDetails) valueWrapper.get();
         }
 
-        OauthClientEntity oauthClientEntity = oauthClientRepository.findByClientId(clientId);
-        if (oauthClientEntity != null) {
-            if (oauthClientEntity.getRecordStatus() < 0) {
+        OauthClient oauthClient = oauthClientRepository.findByClientId(clientId);
+        if (oauthClient != null) {
+            if (oauthClient.getRecordStatus() < 0) {
                 throw new InvalidClientException(String.format("clientId %s is disabled!", clientId));
             }
-            if (oauthClientEntity.getExpirationDate() != null && oauthClientEntity.getExpirationDate().compareTo(new Date()) < 0) {
+            if (oauthClient.getExpirationDate() != null && oauthClient.getExpirationDate().compareTo(new Date()) < 0) {
                 throw new AlreadyExpiredException(String.format("clientId %s already expired!", clientId));
             }
             BaseClientDetails baseClientDetails = new BaseClientDetails();
-            baseClientDetails.setClientId(oauthClientEntity.getClientId());
-            if (!StringUtils.isEmpty(oauthClientEntity.getResourceIds())) {
-                baseClientDetails.setResourceIds(StringUtils.commaDelimitedListToSet(oauthClientEntity.getResourceIds()));
+            baseClientDetails.setClientId(oauthClient.getClientId());
+            if (!StringUtils.isEmpty(oauthClient.getResourceIds())) {
+                baseClientDetails.setResourceIds(StringUtils.commaDelimitedListToSet(oauthClient.getResourceIds()));
             }
-            baseClientDetails.setClientSecret(oauthClientEntity.getClientSecret());
-            if (!StringUtils.isEmpty(oauthClientEntity.getScope())) {
-                baseClientDetails.setScope(StringUtils.commaDelimitedListToSet(oauthClientEntity.getScope()));
+            baseClientDetails.setClientSecret(oauthClient.getClientSecret());
+            if (!StringUtils.isEmpty(oauthClient.getScope())) {
+                baseClientDetails.setScope(StringUtils.commaDelimitedListToSet(oauthClient.getScope()));
             }
-            if (!StringUtils.isEmpty(oauthClientEntity.getAuthorizedGrantTypes())) {
-                baseClientDetails.setAuthorizedGrantTypes(StringUtils.commaDelimitedListToSet(oauthClientEntity.getAuthorizedGrantTypes()));
+            if (!StringUtils.isEmpty(oauthClient.getAuthorizedGrantTypes())) {
+                baseClientDetails.setAuthorizedGrantTypes(StringUtils.commaDelimitedListToSet(oauthClient.getAuthorizedGrantTypes()));
             } else {
                 baseClientDetails.setAuthorizedGrantTypes(StringUtils.commaDelimitedListToSet("authorization_code"));
             }
-            if (!StringUtils.isEmpty(oauthClientEntity.getWebServerRedirectUri())) {
-                baseClientDetails.setRegisteredRedirectUri(StringUtils.commaDelimitedListToSet(oauthClientEntity.getWebServerRedirectUri()));
+            if (!StringUtils.isEmpty(oauthClient.getWebServerRedirectUri())) {
+                baseClientDetails.setRegisteredRedirectUri(StringUtils.commaDelimitedListToSet(oauthClient.getWebServerRedirectUri()));
             }
-            if (!StringUtils.isEmpty(oauthClientEntity.getAuthorities())) {
+            if (!StringUtils.isEmpty(oauthClient.getAuthorities())) {
                 List<SimpleGrantedAuthority> authorities = new ArrayList<>();
-                StringUtils.commaDelimitedListToSet(oauthClientEntity.getAuthorities()).forEach(s -> authorities.add(new SimpleGrantedAuthority(s)));
+                StringUtils.commaDelimitedListToSet(oauthClient.getAuthorities()).forEach(s -> authorities.add(new SimpleGrantedAuthority(s)));
                 baseClientDetails.setAuthorities(authorities);
             }
-            if (oauthClientEntity.getAccessTokenValidity() != null && oauthClientEntity.getAccessTokenValidity() > 0) {
-                baseClientDetails.setAccessTokenValiditySeconds(oauthClientEntity.getAccessTokenValidity());
+            if (oauthClient.getAccessTokenValidity() != null && oauthClient.getAccessTokenValidity() > 0) {
+                baseClientDetails.setAccessTokenValiditySeconds(oauthClient.getAccessTokenValidity());
             }
-            if (oauthClientEntity.getRefreshTokenValidity() != null && oauthClientEntity.getRefreshTokenValidity() > 0) {
-                baseClientDetails.setRefreshTokenValiditySeconds(oauthClientEntity.getRefreshTokenValidity());
+            if (oauthClient.getRefreshTokenValidity() != null && oauthClient.getRefreshTokenValidity() > 0) {
+                baseClientDetails.setRefreshTokenValiditySeconds(oauthClient.getRefreshTokenValidity());
             }
 ///            baseClientDetails.setAdditionalInformation(oauthClientEntity.getAdditionalInformation());
-            if (!StringUtils.isEmpty(oauthClientEntity.getAutoApprove())) {
-                baseClientDetails.setAutoApproveScopes(StringUtils.commaDelimitedListToSet(oauthClientEntity.getAutoApprove()));
+            if (!StringUtils.isEmpty(oauthClient.getAutoApprove())) {
+                baseClientDetails.setAutoApproveScopes(StringUtils.commaDelimitedListToSet(oauthClient.getAutoApprove()));
             }
             cacheManager.getCache(CachesEnum.Oauth2ClientCache.name()).put(clientId, baseClientDetails);
             return baseClientDetails;

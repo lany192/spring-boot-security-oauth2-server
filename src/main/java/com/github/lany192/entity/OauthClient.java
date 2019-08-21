@@ -1,4 +1,4 @@
-package com.github.lany192.persistence.entity;
+package com.github.lany192.entity;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -8,7 +8,7 @@ import java.util.Date;
 
 @Entity
 @Table(name = "sys_oauth_client", uniqueConstraints = @UniqueConstraint(columnNames = {"clientId"}))
-public class OauthClientEntity extends BaseEntity {
+public class OauthClient extends BaseEntity {
     /**
      *
      */

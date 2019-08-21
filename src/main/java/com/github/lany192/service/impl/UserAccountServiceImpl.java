@@ -2,10 +2,10 @@ package com.github.lany192.service.impl;
 
 import com.github.dozermapper.core.Mapper;
 import com.github.lany192.exception.EntityNotFoundException;
-import com.github.lany192.persistence.entity.RoleEntity;
-import com.github.lany192.persistence.entity.UserAccountEntity;
-import com.github.lany192.persistence.repository.RoleRepository;
-import com.github.lany192.persistence.repository.UserAccountRepository;
+import com.github.lany192.entity.RoleEntity;
+import com.github.lany192.entity.Account;
+import com.github.lany192.repository.RoleRepository;
+import com.github.lany192.repository.UserAccountRepository;
 import com.github.lany192.utils.DateUtil;
 import com.github.lany192.exception.AlreadyExistsException;
 import com.github.lany192.domain.JsonObjects;
@@ -50,7 +50,7 @@ public class UserAccountServiceImpl implements UserAccountService {
             sort = new Sort(Sort.Direction.DESC, sortField);
         }
         Pageable pageable = PageRequest.of(pageNum - 1, pageSize, sort);
-        Page<UserAccountEntity> page;
+        Page<Account> page;
         if (StringUtils.isBlank(username)) {
             page = userAccountRepository.findAll(pageable);
         } else {
@@ -68,35 +68,35 @@ public class UserAccountServiceImpl implements UserAccountService {
     @Override
     @Transactional(rollbackFor = Exception.class)
     public UserAccount create(UserAccount userAccount) throws AlreadyExistsException {
-        UserAccountEntity exist = userAccountRepository.findByUsername(userAccount.getUsername());
+        Account exist = userAccountRepository.findByUsername(userAccount.getUsername());
         if (exist != null) {
             throw new AlreadyExistsException(userAccount.getUsername() + " already exists!");
         }
-        UserAccountEntity userAccountEntity = dozerMapper.map(userAccount, UserAccountEntity.class);
-        userAccountEntity.getRoles().clear();
+        Account account = dozerMapper.map(userAccount, Account.class);
+        account.getRoles().clear();
         if (userAccount.getRoles() != null && userAccount.getRoles().size() > 0) {
             userAccount.getRoles().forEach(e -> {
                 RoleEntity roleEntity = roleRepository.findByRoleName(e.getRoleName());
                 if (roleEntity != null) {
-                    userAccountEntity.getRoles().add(roleEntity);
+                    account.getRoles().add(roleEntity);
                 }
             });
         }
-        userAccountRepository.save(userAccountEntity);
-        return dozerMapper.map(userAccountEntity, UserAccount.class);
+        userAccountRepository.save(account);
+        return dozerMapper.map(account, UserAccount.class);
     }
 
     @Override
     public UserAccount retrieveById(long id) throws EntityNotFoundException {
-        Optional<UserAccountEntity> entityOptional = userAccountRepository.findById(id);
+        Optional<Account> entityOptional = userAccountRepository.findById(id);
         return dozerMapper.map(entityOptional.orElseThrow(EntityNotFoundException::new), UserAccount.class);
     }
 
     @Override
     @Transactional(rollbackFor = Exception.class)
     public UserAccount updateById(UserAccount userAccount) throws EntityNotFoundException {
-        Optional<UserAccountEntity> entityOptional = userAccountRepository.findById(Long.parseLong(userAccount.getId()));
-        UserAccountEntity e = entityOptional.orElseThrow(EntityNotFoundException::new);
+        Optional<Account> entityOptional = userAccountRepository.findById(Long.parseLong(userAccount.getId()));
+        Account e = entityOptional.orElseThrow(EntityNotFoundException::new);
         if (StringUtils.isNotEmpty(userAccount.getPassword())) {
             e.setPassword(userAccount.getPassword());
         }
@@ -116,17 +116,17 @@ public class UserAccountServiceImpl implements UserAccountService {
     @Override
     @Transactional(rollbackFor = Exception.class)
     public void updateRecordStatus(long id, int recordStatus) {
-        Optional<UserAccountEntity> entityOptional = userAccountRepository.findById(id);
-        UserAccountEntity e = entityOptional.orElseThrow(EntityNotFoundException::new);
+        Optional<Account> entityOptional = userAccountRepository.findById(id);
+        Account e = entityOptional.orElseThrow(EntityNotFoundException::new);
         e.setRecordStatus(recordStatus);
         userAccountRepository.save(e);
     }
 
     @Override
     public UserAccount findByUsername(String username) throws EntityNotFoundException {
-        UserAccountEntity userAccountEntity = userAccountRepository.findByUsername(username);
-        if (userAccountEntity != null) {
-            return dozerMapper.map(userAccountEntity, UserAccount.class);
+        Account account = userAccountRepository.findByUsername(username);
+        if (account != null) {
+            return dozerMapper.map(account, UserAccount.class);
         } else {
             throw new EntityNotFoundException(username + " not found!");
         }
@@ -141,11 +141,11 @@ public class UserAccountServiceImpl implements UserAccountService {
     @Transactional(rollbackFor = Exception.class)
     @Async
     public void loginSuccess(String username) throws EntityNotFoundException {
-        UserAccountEntity userAccountEntity = userAccountRepository.findByUsername(username);
-        if (userAccountEntity != null) {
-            userAccountEntity.setFailureCount(0);
-            userAccountEntity.setFailureTime(null);
-            userAccountRepository.save(userAccountEntity);
+        Account account = userAccountRepository.findByUsername(username);
+        if (account != null) {
+            account.setFailureCount(0);
+            account.setFailureTime(null);
+            userAccountRepository.save(account);
         } else {
             throw new EntityNotFoundException(username + " not found!");
         }
@@ -154,22 +154,22 @@ public class UserAccountServiceImpl implements UserAccountService {
     @Override
     @Transactional(rollbackFor = Exception.class)
     public void loginFailure(String username) {
-        UserAccountEntity userAccountEntity = userAccountRepository.findByUsername(username);
-        if (userAccountEntity != null) {
-            if (userAccountEntity.getFailureTime() == null) {
-                userAccountEntity.setFailureCount(1);
+        Account account = userAccountRepository.findByUsername(username);
+        if (account != null) {
+            if (account.getFailureTime() == null) {
+                account.setFailureCount(1);
             } else {
-                if (DateUtil.beforeToday(userAccountEntity.getFailureTime())) {
-                    userAccountEntity.setFailureCount(0);
+                if (DateUtil.beforeToday(account.getFailureTime())) {
+                    account.setFailureCount(0);
                 } else {
-                    userAccountEntity.setFailureCount(userAccountEntity.getFailureCount() + 1);
+                    account.setFailureCount(account.getFailureCount() + 1);
                 }
             }
-            userAccountEntity.setFailureTime(new Date());
-            if (userAccountEntity.getFailureCount() >= failureMax && userAccountEntity.getRecordStatus() >= 0) {
-                userAccountEntity.setRecordStatus(-1);
+            account.setFailureTime(new Date());
+            if (account.getFailureCount() >= failureMax && account.getRecordStatus() >= 0) {
+                account.setRecordStatus(-1);
             }
-            userAccountRepository.save(userAccountEntity);
+            userAccountRepository.save(account);
         }
     }
 }

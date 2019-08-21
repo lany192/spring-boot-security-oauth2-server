@@ -1,6 +1,6 @@
-package com.github.lany192.persistence.repository;
+package com.github.lany192.repository;
 
-import com.github.lany192.persistence.entity.RoleEntity;
+import com.github.lany192.entity.RoleEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface RoleRepository extends JpaRepository<RoleEntity, Long> {

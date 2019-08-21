@@ -2,11 +2,10 @@ package com.github.lany192.service.impl;
 
 import com.github.dozermapper.core.Mapper;
 import com.github.lany192.exception.EntityNotFoundException;
-import com.github.lany192.persistence.entity.OauthClientEntity;
-import com.github.lany192.persistence.repository.OauthClientRepository;
+import com.github.lany192.entity.OauthClient;
+import com.github.lany192.repository.OauthClientRepository;
 import com.github.lany192.exception.AlreadyExistsException;
 import com.github.lany192.domain.JsonObjects;
-import com.github.lany192.domain.OauthClient;
 import com.github.lany192.service.OauthClientService;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,18 +28,18 @@ public class OauthClientServiceImpl implements OauthClientService {
     Mapper dozerMapper;
 
     @Override
-    public OauthClient findByClientId(String clientId) {
-        OauthClientEntity oauthClientEntity = oauthClientRepository.findByClientId(clientId);
-        if (oauthClientEntity != null) {
-            return dozerMapper.map(oauthClientEntity, OauthClient.class);
+    public com.github.lany192.domain.OauthClient findByClientId(String clientId) {
+        OauthClient oauthClient = oauthClientRepository.findByClientId(clientId);
+        if (oauthClient != null) {
+            return dozerMapper.map(oauthClient, com.github.lany192.domain.OauthClient.class);
         } else {
             return null;
         }
     }
 
     @Override
-    public JsonObjects<OauthClient> list(int pageNum, int pageSize, String sortField, String sortOrder) {
-        JsonObjects<OauthClient> jsonObjects = new JsonObjects<>();
+    public JsonObjects<com.github.lany192.domain.OauthClient> list(int pageNum, int pageSize, String sortField, String sortOrder) {
+        JsonObjects<com.github.lany192.domain.OauthClient> jsonObjects = new JsonObjects<>();
         Sort sort;
         if (StringUtils.equalsIgnoreCase(sortOrder, "asc")) {
             sort = new Sort(Sort.Direction.ASC, sortField);
@@ -48,36 +47,36 @@ public class OauthClientServiceImpl implements OauthClientService {
             sort = new Sort(Sort.Direction.DESC, sortField);
         }
         Pageable pageable = PageRequest.of(pageNum - 1, pageSize, sort);
-        Page<OauthClientEntity> page = oauthClientRepository.findAll(pageable);
+        Page<OauthClient> page = oauthClientRepository.findAll(pageable);
         if (page.getContent() != null && page.getContent().size() > 0) {
             jsonObjects.setRecordsTotal(page.getTotalElements());
             jsonObjects.setRecordsFiltered(page.getTotalElements());
-            page.getContent().forEach(u -> jsonObjects.getData().add(dozerMapper.map(u, OauthClient.class)));
+            page.getContent().forEach(u -> jsonObjects.getData().add(dozerMapper.map(u, com.github.lany192.domain.OauthClient.class)));
         }
         return jsonObjects;
     }
 
     @Override
-    public OauthClient create(OauthClient oauthClient) throws AlreadyExistsException {
-        OauthClientEntity exist = oauthClientRepository.findByClientId(oauthClient.getClientId());
+    public com.github.lany192.domain.OauthClient create(com.github.lany192.domain.OauthClient oauthClient) throws AlreadyExistsException {
+        OauthClient exist = oauthClientRepository.findByClientId(oauthClient.getClientId());
         if (exist != null) {
             throw new AlreadyExistsException(oauthClient.getClientId() + " already exists!");
         }
-        OauthClientEntity oauthClientEntity = dozerMapper.map(oauthClient, OauthClientEntity.class);
+        OauthClient oauthClientEntity = dozerMapper.map(oauthClient, OauthClient.class);
         oauthClientRepository.save(oauthClientEntity);
-        return dozerMapper.map(oauthClientEntity, OauthClient.class);
+        return dozerMapper.map(oauthClientEntity, com.github.lany192.domain.OauthClient.class);
     }
 
     @Override
-    public OauthClient retrieveById(long id) throws EntityNotFoundException {
-        Optional<OauthClientEntity> entityOptional = oauthClientRepository.findById(id);
-        return dozerMapper.map(entityOptional.orElseThrow(EntityNotFoundException::new), OauthClient.class);
+    public com.github.lany192.domain.OauthClient retrieveById(long id) throws EntityNotFoundException {
+        Optional<OauthClient> entityOptional = oauthClientRepository.findById(id);
+        return dozerMapper.map(entityOptional.orElseThrow(EntityNotFoundException::new), com.github.lany192.domain.OauthClient.class);
     }
 
     @Override
-    public OauthClient updateById(OauthClient oauthClient) throws EntityNotFoundException {
-        Optional<OauthClientEntity> entityOptional = oauthClientRepository.findById(Long.parseLong(oauthClient.getId()));
-        OauthClientEntity e = entityOptional.orElseThrow(EntityNotFoundException::new);
+    public com.github.lany192.domain.OauthClient updateById(com.github.lany192.domain.OauthClient oauthClient) throws EntityNotFoundException {
+        Optional<OauthClient> entityOptional = oauthClientRepository.findById(Long.parseLong(oauthClient.getId()));
+        OauthClient e = entityOptional.orElseThrow(EntityNotFoundException::new);
         if (StringUtils.isNotEmpty(oauthClient.getClientSecret())) {
             e.setClientSecret(oauthClient.getClientSecret());
         }
@@ -91,14 +90,14 @@ public class OauthClientServiceImpl implements OauthClientService {
         }
 
         oauthClientRepository.save(e);
-        return dozerMapper.map(e, OauthClient.class);
+        return dozerMapper.map(e, com.github.lany192.domain.OauthClient.class);
     }
 
     @Override
     @Transactional(rollbackFor = Exception.class)
     public void updateRecordStatus(long id, int recordStatus) {
-        Optional<OauthClientEntity> entityOptional = oauthClientRepository.findById(id);
-        OauthClientEntity e = entityOptional.orElseThrow(EntityNotFoundException::new);
+        Optional<OauthClient> entityOptional = oauthClientRepository.findById(id);
+        OauthClient e = entityOptional.orElseThrow(EntityNotFoundException::new);
         e.setRecordStatus(recordStatus);
         oauthClientRepository.save(e);
     }

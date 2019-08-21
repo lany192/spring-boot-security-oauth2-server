@@ -1,7 +1,7 @@
 package com.github.lany192.config;
 
-import com.github.lany192.persistence.repository.RoleRepository;
-import com.github.lany192.persistence.repository.ThirdPartyAccountRepository;
+import com.github.lany192.repository.RoleRepository;
+import com.github.lany192.repository.ThirdPartyAccountRepository;
 import com.github.lany192.service.CaptchaService;
 import com.github.lany192.service.impl.ClientDetailsServiceImpl;
 import org.springframework.beans.factory.InitializingBean;

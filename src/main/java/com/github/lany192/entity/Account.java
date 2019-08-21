@@ -1,4 +1,4 @@
-package com.github.lany192.persistence.entity;
+package com.github.lany192.entity;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -8,7 +8,7 @@ import java.util.List;
 
 @Entity
 @Table(name = "sys_account", uniqueConstraints = @UniqueConstraint(columnNames = {"username"}))
-public class UserAccountEntity extends BaseEntity {
+public class Account extends BaseEntity {
 
     private static final long serialVersionUID = -5519234457588411587L;
     @ManyToMany(cascade = CascadeType.REMOVE, fetch = FetchType.EAGER)

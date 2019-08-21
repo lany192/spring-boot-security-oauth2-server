@@ -1,9 +1,9 @@
 package com.github.lany192.service.impl;
 
 import com.github.lany192.domain.UserInfo;
-import com.github.lany192.persistence.entity.RoleEntity;
-import com.github.lany192.persistence.entity.UserAccountEntity;
-import com.github.lany192.persistence.repository.UserAccountRepository;
+import com.github.lany192.entity.RoleEntity;
+import com.github.lany192.entity.Account;
+import com.github.lany192.repository.UserAccountRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -22,17 +22,17 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        UserAccountEntity userAccountEntity = userAccountRepository.findByUsername(username);
-        if (userAccountEntity != null) {
+        Account account = userAccountRepository.findByUsername(username);
+        if (account != null) {
             List<GrantedAuthority> grantedAuthorities = new ArrayList<>();
-            if (userAccountEntity.getRoles() != null && userAccountEntity.getRoles().size() > 0) {
-                for (RoleEntity temp : userAccountEntity.getRoles()) {
+            if (account.getRoles() != null && account.getRoles().size() > 0) {
+                for (RoleEntity temp : account.getRoles()) {
                     GrantedAuthority grantedAuthority = new SimpleGrantedAuthority(temp.getRoleName());
                     grantedAuthorities.add(grantedAuthority);
                 }
             }
-            return new UserInfo(userAccountEntity.getAccountOpenCode(), userAccountEntity.getUsername(), userAccountEntity.getPassword(),
-                userAccountEntity.getRecordStatus() >= 0, true, true, userAccountEntity.getRecordStatus() != -2, grantedAuthorities);
+            return new UserInfo(account.getAccountOpenCode(), account.getUsername(), account.getPassword(),
+                account.getRecordStatus() >= 0, true, true, account.getRecordStatus() != -2, grantedAuthorities);
         } else {
             throw new UsernameNotFoundException(username + " not found!");
         }

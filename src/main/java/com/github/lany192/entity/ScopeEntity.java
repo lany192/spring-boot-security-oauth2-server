@@ -1,4 +1,4 @@
-package com.github.lany192.persistence.entity;
+package com.github.lany192.entity;
 
 import javax.persistence.Entity;
 import javax.persistence.Table;
@@ -6,7 +6,7 @@ import javax.persistence.UniqueConstraint;
 
 @Entity
 @Table(name = "sys_scope", uniqueConstraints = @UniqueConstraint(columnNames = {"scope"}))
-public class ScopeDefinitionEntity extends BaseEntity {
+public class ScopeEntity extends BaseEntity {
     /**
      *
      */

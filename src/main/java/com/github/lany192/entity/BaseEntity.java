@@ -1,4 +1,4 @@
-package com.github.lany192.persistence.entity;
+package com.github.lany192.entity;
 
 import lombok.Getter;
 import lombok.Setter;

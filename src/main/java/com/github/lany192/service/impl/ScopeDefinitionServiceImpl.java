@@ -2,8 +2,8 @@ package com.github.lany192.service.impl;
 
 import com.github.dozermapper.core.Mapper;
 import com.github.lany192.domain.ScopeDefinition;
-import com.github.lany192.persistence.entity.ScopeDefinitionEntity;
-import com.github.lany192.persistence.repository.ScopeDefinitionRepository;
+import com.github.lany192.entity.ScopeEntity;
+import com.github.lany192.repository.ScopeDefinitionRepository;
 import com.github.lany192.exception.NotImplementException;
 import com.github.lany192.service.ScopeDefinitionService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,9 +20,9 @@ public class ScopeDefinitionServiceImpl implements ScopeDefinitionService {
 
     @Override
     public ScopeDefinition findByScope(String scope) throws NotImplementException {
-        ScopeDefinitionEntity scopeDefinitionEntity = scopeDefinitionRepository.findByScope(scope);
-        if (scopeDefinitionEntity != null) {
-            return dozerMapper.map(scopeDefinitionEntity, ScopeDefinition.class);
+        ScopeEntity scopeEntity = scopeDefinitionRepository.findByScope(scope);
+        if (scopeEntity != null) {
+            return dozerMapper.map(scopeEntity, ScopeDefinition.class);
         } else {
             return null;
         }

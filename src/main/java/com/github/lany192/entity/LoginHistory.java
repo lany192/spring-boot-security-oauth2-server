@@ -1,4 +1,4 @@
-package com.github.lany192.persistence.entity;
+package com.github.lany192.entity;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -8,7 +8,7 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "sys_login_history", indexes = {@Index(name = "index_username", columnList = "username")})
-public class LoginHistoryEntity extends BaseEntity {
+public class LoginHistory extends BaseEntity {
 
     /**
      *

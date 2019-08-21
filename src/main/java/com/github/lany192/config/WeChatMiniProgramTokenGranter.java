@@ -4,10 +4,10 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.github.lany192.domain.RoleEnum;
 import com.github.lany192.domain.UserInfo;
 import com.github.lany192.utils.JsonUtil;
-import com.github.lany192.persistence.entity.RoleEntity;
-import com.github.lany192.persistence.entity.ThirdPartyAccountEntity;
-import com.github.lany192.persistence.repository.RoleRepository;
-import com.github.lany192.persistence.repository.ThirdPartyAccountRepository;
+import com.github.lany192.entity.RoleEntity;
+import com.github.lany192.entity.ThirdAccount;
+import com.github.lany192.repository.RoleRepository;
+import com.github.lany192.repository.ThirdPartyAccountRepository;
 import org.springframework.security.authentication.AbstractAuthenticationToken;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.GrantedAuthority;
@@ -68,19 +68,19 @@ public class WeChatMiniProgramTokenGranter extends AbstractTokenGranter {
             });
             if (openIdMap.containsKey("openid")) {
                 String openId = openIdMap.get("openid");
-                ThirdPartyAccountEntity thirdPartyAccountEntity = thirdPartyAccountRepository.findByThirdPartyAndThirdPartyAccountId(GRANT_TYPE, openId);
-                if (thirdPartyAccountEntity == null) {
-                    thirdPartyAccountEntity = new ThirdPartyAccountEntity();
-                    thirdPartyAccountEntity.setThirdParty(GRANT_TYPE);
-                    thirdPartyAccountEntity.setThirdPartyAccountId(openId);
-                    thirdPartyAccountEntity.setAccountOpenCode(UUID.randomUUID().toString());
+                ThirdAccount thirdAccount = thirdPartyAccountRepository.findByThirdPartyAndThirdPartyAccountId(GRANT_TYPE, openId);
+                if (thirdAccount == null) {
+                    thirdAccount = new ThirdAccount();
+                    thirdAccount.setThirdParty(GRANT_TYPE);
+                    thirdAccount.setThirdPartyAccountId(openId);
+                    thirdAccount.setAccountOpenCode(UUID.randomUUID().toString());
 
                     RoleEntity roleEntity = roleRepository.findByRoleName(RoleEnum.ROLE_USER.name());
-                    thirdPartyAccountEntity.getRoles().add(roleEntity);
-                    thirdPartyAccountRepository.save(thirdPartyAccountEntity);
+                    thirdAccount.getRoles().add(roleEntity);
+                    thirdPartyAccountRepository.save(thirdAccount);
                 }
 
-                UserInfo user = new UserInfo(thirdPartyAccountEntity.getAccountOpenCode(), openId, "", getAuthorities(thirdPartyAccountEntity.getRoles()));
+                UserInfo user = new UserInfo(thirdAccount.getAccountOpenCode(), openId, "", getAuthorities(thirdAccount.getRoles()));
                 AbstractAuthenticationToken userAuth = new UsernamePasswordAuthenticationToken(user, null, user.getAuthorities());
                 // 关于user.getAuthorities(): 我们的自定义用户实体是实现了
                 // org.springframework.security.core.userdetails.UserDetails 接口的, 所以有
