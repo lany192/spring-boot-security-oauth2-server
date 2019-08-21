@@ -1,4 +1,4 @@
-package com.github.lany192.config;
+package com.github.lany192.handler;
 
 import com.fasterxml.jackson.core.JsonEncoding;
 import com.fasterxml.jackson.core.JsonGenerator;
@@ -18,7 +18,6 @@ import java.io.IOException;
 
 @Component
 public class CustomAccessDeniedHandler implements AccessDeniedHandler {
-
     @Value("${access.denied.url:/403}")
     String accessDeniedUrl = "/403";
 

@@ -1,4 +1,4 @@
-package com.github.lany192.config;
+package com.github.lany192.granter;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.github.lany192.domain.RoleEnum;

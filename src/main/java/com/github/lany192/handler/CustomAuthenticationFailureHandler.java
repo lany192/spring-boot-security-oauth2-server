@@ -1,4 +1,4 @@
-package com.github.lany192.config;
+package com.github.lany192.handler;
 
 import com.fasterxml.jackson.core.JsonEncoding;
 import com.fasterxml.jackson.core.JsonGenerator;

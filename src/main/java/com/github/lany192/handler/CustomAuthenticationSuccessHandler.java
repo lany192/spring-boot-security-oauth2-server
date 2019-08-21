@@ -1,4 +1,4 @@
-package com.github.lany192.config;
+package com.github.lany192.handler;
 
 import com.fasterxml.jackson.core.JsonEncoding;
 import com.fasterxml.jackson.core.JsonGenerator;
@@ -30,10 +30,8 @@ import java.io.IOException;
 public class CustomAuthenticationSuccessHandler extends SavedRequestAwareAuthenticationSuccessHandler {
     @Autowired
     UserAccountService userAccountService;
-
     @Autowired
     LoginHistoryService loginHistoryService;
-
     RequestCache requestCache = new HttpSessionRequestCache();
 
     @Override

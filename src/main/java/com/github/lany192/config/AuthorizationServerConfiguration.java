@@ -1,5 +1,7 @@
 package com.github.lany192.config;
 
+import com.github.lany192.granter.SmsCodeTokenGranter;
+import com.github.lany192.granter.WeChatMiniProgramTokenGranter;
 import com.github.lany192.repository.RoleRepository;
 import com.github.lany192.repository.ThirdAccountRepository;
 import com.github.lany192.service.CaptchaService;
@@ -12,6 +14,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
 import org.springframework.core.io.ClassPathResource;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.oauth2.config.annotation.configurers.ClientDetailsServiceConfigurer;
@@ -147,7 +150,7 @@ public class AuthorizationServerConfiguration extends AuthorizationServerConfigu
         // 设了 tokenGranter 后该配制失效,需要在 tokenServices() 中设置
 ///        endpoints.tokenEnhancer(tokenEnhancerChain);
         endpoints.userApprovalHandler(userApprovalHandler());
-        //endpoints.allowedTokenEndpointRequestMethods(HttpMethod.GET, HttpMethod.POST);
+        endpoints.allowedTokenEndpointRequestMethods(HttpMethod.GET, HttpMethod.POST);
         //自定义登录或者鉴权失败时的返回信息
         //endpoints.exceptionTranslator(webResponseExceptionTranslator);
     }

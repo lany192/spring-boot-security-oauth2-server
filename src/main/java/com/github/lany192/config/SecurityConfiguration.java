@@ -1,6 +1,9 @@
 package com.github.lany192.config;
 
 import com.github.lany192.domain.RoleEnum;
+import com.github.lany192.handler.CustomAccessDeniedHandler;
+import com.github.lany192.handler.CustomAuthenticationFailureHandler;
+import com.github.lany192.handler.CustomAuthenticationSuccessHandler;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
